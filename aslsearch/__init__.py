@@ -10,6 +10,9 @@ def create_app(config_class=Config):
 
     db.init_app(app)
 
+    with app.app_context():
+        db.create_all()
+
     from aslsearch.main.routes import main
     app.register_blueprint(main)
 
