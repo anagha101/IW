@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ASL Search: {{keyword}}</title>
+    </head>
+    <body>
+        <h2>{{keyword}}</h2>
+
+        {% for d in defs: %}
+        <h3>{{d}}</h3>
+        <table>
+            <tr>
+                <th>ASL Gloss</th>
+                <th>Part of Speech</th>
+                <th>Context</th>
+                <th>Video</th>
+            </tr>
+            {% for s in d.signs %}
+            <tr>
+                <td>{{s.gloss}}</td>
+                <td>{{s.pos}}</td>
+                <td>{{s.context}}</td>
+                <iframe width="560" height="315" src={{s.url}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endfor %}
+        <hr>
+        Anagha Rajagopalan Spring 2022 IW Project.
+    </body>
+</html>

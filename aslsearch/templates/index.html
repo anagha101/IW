@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ASL Search</title>
+    </head>
+    <body>
+        <hr>
+        <h1>Welcome to ASL Search!</h1>
+        <h2>Search for a word to learn its translation to ASL.</h2>
+        <hr>
+        <form action="{{url_for('main.words')}}" method="'GET">
+            <label for="word">Search for a title:</label><br>
+            <input type="text" id="keyword" name="word"><br>
+            <input type="submit" value="Submit">
+          </form>
+        <hr>
+        Anagha Rajagopalan Spring 2022 IW Project.
+    </body>
+</html>

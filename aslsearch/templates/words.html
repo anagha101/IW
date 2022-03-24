@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ASL Search Results</title>
+    </head>
+    <body>
+        <h2>Search Results: {{words[0]}}</h2>
+        <table>
+            {% for word in words: %}
+            <tr>
+                <td><a href ={{ url_for('main.wordpage', title=word.title) }}>{{word.title}}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <hr>
+        Anagha Rajagopalan Spring 2022 IW Project.
+    </body>
+</html>
