@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from aslsearch.config import Config
 
@@ -15,5 +16,7 @@ def create_app(config_class=Config):
 
     from aslsearch.main.routes import main
     app.register_blueprint(main)
+
+    Bootstrap(app)
 
     return app
