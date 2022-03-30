@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>ASL Search!</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head>
-    <body>
-        {% extends navbar.html %}
-        <hr>
-        <h1>Welcome to ASL Search!</h1>
-        <h2>Search for a word to learn its translation to ASL.</h2>
-        <hr>
-        <form action="{{url_for('main.words')}}" method="'GET">
-            <label for="word">Search for a title:</label><br>
-            <input type="text" id="keyword" name="word"><br>
-            <input type="submit" value="Submit">
-          </form>
-        <hr>
-        {% extends footer.html %}
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block head %}
+    <title>ASL Search</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Welcome to ASL Search!</h1>
+    <h2>Search for a word to learn its translation to ASL.</h2>
+    <hr>
+    <form action="{{url_for('main.words')}}" method="'GET">
+        <label for="word">Search for a title:</label><br>
+        <input type="text" id="keyword" name="word"><br>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

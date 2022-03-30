@@ -1,0 +1,16 @@
+<h2>Add Word</h2>
+<!--
+<form action="{{url_for('main.uploadword')}}" method="POST">
+    <input type="text" name="title">
+    <input type="text" name="definition">
+    <input type="text" name="video">
+    <input type="submit" name="submit">
+</form>
+-->
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.word.label }} {{ form.word }}
+    <br>
+    {{ form.submit }}
+</form>
