@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>ASL Search Results</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head>
-    <body>
-        <h2>Search Results: {{words[0]}}</h2>
-        <table>
-            {% for word in words: %}
-            <tr>
-                <td><a href ={{ url_for('main.wordpage', title=word.title) }}>{{word.title}}</a></td>
-            </tr>
-            {% endfor %}
-        </table>
-        <hr>
-        Anagha Rajagopalan Spring 2022 IW Project.
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block head %}
+    <title>ASL Search Results</title>
+{% endblock %}
+
+{% block body %}
+    <h2>Search Results:</h2>
+    <hr>
+    <table>
+        {% for word in words: %}
+        <tr>
+            <td><a href ={{url_for('main.wordpage', title=word.title)}} style="text-transform: capitalize">{{word.title}}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

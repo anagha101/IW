@@ -1,1 +1,16 @@
-<p>About</p>
+{% extends "base.html" %}
+
+{% block head %}
+    <title>About ASL Search</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">About ASL Search</h1>
+    <h2 class="text-center">Search for a word to learn its translation to ASL.</h2>
+    <hr>
+    <form action="{{url_for('main.words')}}" method="'GET" class="text-center">
+        <label for="word">Search for a title:</label><br>
+        <input type="text" id="keyword" name="word"><br>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

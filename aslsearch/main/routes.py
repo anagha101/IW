@@ -56,10 +56,11 @@ def words():
 
 @main.route("/wordpage/<string:title>", methods = ['GET'])
 def wordpage(title):
-    print("here2")
+    print("here2: ", title)
     word = Words.query.filter(Words.title.like(title)).all()
     html = render_template("wordpage.html", 
-        defs = word[0].definitions)
+        defs = word[0].definitions,
+        title = title.capitalize())
         
     return make_response(html)
 

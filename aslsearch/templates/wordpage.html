@@ -1,32 +1,29 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>ASL Search: {{keyword}}</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head>
-    <body>
-        <h2>{{keyword}}</h2>
+{% extends "base.html" %}
 
-        {% for d in defs: %}
-        <h3>{{d}}</h3>
-        <table>
-            <tr>
-                <th>ASL Gloss</th>
-                <th>Part of Speech</th>
-                <th>Context</th>
-                <th>Video</th>
-            </tr>
-            {% for s in d.signs %}
-            <tr>
-                <td>{{s.gloss}}</td>
-                <td>{{s.pos}}</td>
-                <td>{{s.context}}</td>
-                <iframe width="560" height="315" src={{s.url}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </tr>
-            {% endfor %}
-        </table>
+{% block head %}
+    <title>ASL Search: {{title}}</title>
+{% endblock %}
+
+{% block body %}
+    <h2>{{title}}</h2>
+    <hr>
+    {% for d in defs: %}
+    <h3 style="text-transform: capitalize">{{d}}</h3>
+    <table>
+        <tr>
+            <th>ASL Gloss</th>
+            <th>Part of Speech</th>
+            <th>Context</th>
+            <th>Video</th>
+        </tr>
+        {% for s in d.signs %}
+        <tr>
+            <td style="text-transform:uppercase;">{{s.gloss}}</td>
+            <td style="text-transform: capitalize">{{s.pos}}</td>
+            <td>{{s.context}}</td>
+            <iframe width="560" height="315" src={{s.url}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </tr>
         {% endfor %}
-        <hr>
-        Anagha Rajagopalan Spring 2022 IW Project.
-    </body>
-</html>
+    </table>
+    {% endfor %}
+{% endblock %}

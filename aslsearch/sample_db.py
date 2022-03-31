@@ -28,12 +28,12 @@ db.session.commit()
 print("Step 3: Added definitions.")
 
 # dummy signs
-sign111 = Signs(gloss = "TO-SQUASH", pos = "verb", context = "Use in reference to the squeezing of anything. See CRUSH or SQUEEZE.", url = "https://www.youtube.com/embed/gz-E13UuuwE")
-sign112 = Signs(gloss = "TO-SQUASH++", pos = "progressive verb", context = "Use for the active action of squeezing. See CRUSH++ or SQUEEZE++.", url = "https://www.youtube.com/embed/cLyAFNe2g1U")
-sign121 = Signs(gloss = "SQUASH (sport)", pos = "noun", context = "Can also sign PLAY, then fingerspell S-Q-U-A-S-H.", url = "https://www.youtube.com/embed/B57C8B22U98")
-sign131 = Signs(gloss = "SQUASH (vegetable)", pos = "noun", context = "Can also sign EAT, then fingerspell S-Q-U-A-S-H.", url = "https://www.youtube.com/embed/ZuifhBiMSPo")
-sign211 = Signs(gloss = "DOG (formal)", pos = "noun", context = "Use in reference to the animal dog in general.", url = "https://www.youtube.com/embed/xql81QmylRM")
-sign212 = Signs(gloss = "DOG (informal)", pos = "noun", context = "Use in reference to one's own pet dog.", url = "https://www.youtube.com/embed/jw_JtL35ZP4")
+sign111 = Signs(gloss = "TO-SQUASH", pos = "verb", context = "use in reference to the squeezing of anything. See CRUSH or SQUEEZE.", url = "https://www.youtube.com/embed/gz-E13UuuwE")
+sign112 = Signs(gloss = "TO-SQUASH++", pos = "progressive verb", context = "use for the active action of squeezing. See CRUSH++ or SQUEEZE++.", url = "https://www.youtube.com/embed/cLyAFNe2g1U")
+sign121 = Signs(gloss = "SQUASH (sport)", pos = "noun", context = "can also sign PLAY, then fingerspell S-Q-U-A-S-H.", url = "https://www.youtube.com/embed/B57C8B22U98")
+sign131 = Signs(gloss = "SQUASH (vegetable)", pos = "noun", context = "can also sign EAT, then fingerspell S-Q-U-A-S-H.", url = "https://www.youtube.com/embed/ZuifhBiMSPo")
+sign211 = Signs(gloss = "DOG (formal)", pos = "noun", context = "use in reference to the animal dog in general.", url = "https://www.youtube.com/embed/xql81QmylRM")
+sign212 = Signs(gloss = "DOG (informal)", pos = "noun", context = "use in reference to one's own pet dog.", url = "https://www.youtube.com/embed/jw_JtL35ZP4")
 
 
 db.session.add(sign111)
