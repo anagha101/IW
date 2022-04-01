@@ -6,11 +6,27 @@
 
 {% block body %}
     <h1 class="text-center">About ASL Search</h1>
-    <h2 class="text-center">Search for a word to learn its translation to ASL.</h2>
-    <hr>
-    <form action="{{url_for('main.words')}}" method="'GET" class="text-center">
-        <label for="word">Search for a title:</label><br>
-        <input type="text" id="keyword" name="word"><br>
-        <input type="submit" value="Submit">
-    </form>
+    <h3 class="text-center">An Online Dictionary for the Princeton ASL Program</h2>
+    <h5>The Problem:</h3>
+    <p> Only 10% of ASL users are Native users, meaning they learned ASL as their first language and 
+        grew up in a Deaf community. The remaining 90% of Deaf people experience very different 
+        introductions to language - some may first learn ASL phrases through friends, online exposure, 
+        caretakes, etc. - the diversity of these experiences resulting in many different variations of 
+        signs for any given word. Furthermore, there is not a 1-1 relationship between English words and
+        ASL signs, as the grammar and vocabulary vary significantly. Therefore, existing ASL dictionaries
+        can be unclear, as for each English word there may be many signed videos included, without sufficient
+        instructions for distinct usages or contexts. Without many developers dedicated to building ASL tools,
+        existing dictionaries also lack advanced search capabilities such as suggesting terms in order of 
+        search frequency rather than alphabetically, automatic playing and looping of videos, etc. ASLsearch
+        will remedy these difficulties as well as serve as a customizable platform for the Princeton ASL program,
+        allowing for additional context for ASL vocabulary beyond just a collection of videos.
+    </p>
+    <h5>The Goal:</h3>
+    <p>ASLsearch will be an online dictionary tool for the American Sign Language classes at Princeton.
+        Through this platform, students may search for and learn vocabulary through a collection of
+        signed videos and additional information posted by linguistics professors Noah Buchholz and
+        Daniel Maier. ASL Search is meant to be used as a supplementary resource to the ASL curriculum
+        taught in Princeton classes specifically, as exisiting online dictionaries fall short in providing
+        enough context and advanced techonlogical features. 
+    </p>
 {% endblock %}
