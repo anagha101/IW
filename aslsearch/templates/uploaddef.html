@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>ASL Search: Add Definition</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Add Definition</h1>
+    <h2 class="text-center">Add a definition for __word__, then go to its page to add more definitions and signs!</h2>
+    <br>
+    <form method="POST" class="form-inline my-2 my-lg-0 justify-content-center">
+        {{ form.hidden_tag() }}
+        {{ form.definition(class="form-control mr-sm-2") }}
+        {{ form.submit(class="btn btn-secondary my-2 my-sm-0") }}
+    </form>    
+{% endblock %}

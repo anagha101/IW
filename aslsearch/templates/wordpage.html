@@ -23,6 +23,13 @@
         <br>
         {% endfor %}
         <br>
+        <form action="{{url_for('main.uploadsign')}}">
+            <input type="submit" value="Add Sign" />
+        </form>
+        <br>
         <br>
     {% endfor %}
+    <form action="{{url_for('main.uploaddef')}}">
+        <input type="submit" value="Add Definition" />
+    </form>
 {% endblock %}

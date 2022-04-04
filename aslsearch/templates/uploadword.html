@@ -1,4 +1,20 @@
-<h2>Add Word</h2>
+{% extends "base.html" %}
+
+{% block head %}
+    <title>ASL Search: Upload Word</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Upload Word</h1>
+    <h2 class="text-center">Add a new word here, then go to its page to add definitions and signs!</h2>
+    <br>
+    <form method="POST" class="form-inline my-2 my-lg-0 justify-content-center">
+        {{ form.hidden_tag() }}
+        {{ form.word(class="form-control mr-sm-2") }}
+        {{ form.submit(class="btn btn-secondary my-2 my-sm-0") }}
+    </form>    
+{% endblock %}
+
 <!--
 <form action="{{url_for('main.uploadword')}}" method="POST">
     <input type="text" name="title">
@@ -8,9 +24,3 @@
 </form>
 -->
 
-<form method="POST">
-    {{ form.hidden_tag() }}
-    {{ form.word.label }} {{ form.word }}
-    <br>
-    {{ form.submit }}
-</form>
