@@ -29,7 +29,7 @@
         <br>
         <br>
     {% endfor %}
-    <form action="{{url_for('main.uploaddef')}}">
+    <form action="{{url_for('main.uploaddef', word=title)}}">
         <input type="submit" value="Add Definition" />
     </form>
 {% endblock %}
