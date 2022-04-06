@@ -8,26 +8,56 @@
     <h1 class="text-center">{{title}}</h2>
     <hr>
     {% for d in defs: %}
-        <h3 style="text-transform: capitalize">{{d}}</h3>
+        <div class="container">
+            <div class="row">
+            <div class="col-10">
+                <h3 style="text-transform: capitalize">{{d}}</h3>
+            </div>
+            <div class="col-1">
+                <form action="{{url_for('main.editdef', word=title, defid=d.id)}}" class="text-right">
+                    <input type="submit" value="Edit" />
+                </form>
+            </div>
+            <div class="col-1">
+                <form class="text-right" action="">
+                    <input type="submit" value="Delete" />
+                </form>
+            </div>
+            </div>
+        </div>
         <br>
         {% for s in d.signs %}
-            <div class="media">
+            <div class="media" style="margin-left: 50px;">
                 <iframe class="align-self-center mr-3" width="560" height="315" src={{s.url}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" alt="YouTube Video" allowfullscreen></iframe>
                 <div class="media-body">
                     <h5 class="mt-0"><span class="font-weight-bold">ASL Gloss: </span>{{s.gloss}}</h5>
                     <h5 class="mt-0"><span class="font-weight-bold">Part of Speech: </span>{{s.pos}}</h5>
                     <h5 class="font-weight-bold">Additional Context:</h5>
                     <p>{{s.context}}</p>
+                    <div class="container">
+                        <div class="row">
+                        <div class="col-1">
+                            <form action="" style="margin-right: 10px">
+                                <input type="submit" value="Edit" />
+                            </form>
+                        </div>
+                        <div class="col-sm">
+                            <form action="">
+                                <input type="submit" value="Delete" />
+                            </form>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        <br>
+            <br>
         {% endfor %}
         <br>
-        <form action="{{url_for('main.uploadsign', word=title, defid=d.id)}}">
+        <form action="{{url_for('main.uploadsign', word=title, defid=d.id)}}" style="margin-left: 50px;">
             <input type="submit" value="Add Sign" />
         </form>
         <br>
-        <br>
+        <hr>
     {% endfor %}
     <form action="{{url_for('main.uploaddef', word=title)}}">
         <input type="submit" value="Add Definition" />
