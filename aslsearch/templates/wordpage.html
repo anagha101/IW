@@ -13,16 +13,18 @@
             <div class="col-10">
                 <h3 style="text-transform: capitalize">{{d}}</h3>
             </div>
+            {% if admin %}
             <div class="col-1">
                 <form action="{{url_for('main.editdef', word=title, defid=d.id)}}" class="text-right">
                     <input type="submit" value="Edit" />
                 </form>
             </div>
             <div class="col-1">
-                <form class="text-right" action="">
+                <form class="text-right" action="{{url_for('main.deletedef', word=title, defid=d.id)}}">
                     <input type="submit" value="Delete" />
                 </form>
             </div>
+            {% endif %}
             </div>
         </div>
         <br>
@@ -34,32 +36,38 @@
                     <h5 class="mt-0"><span class="font-weight-bold">Part of Speech: </span>{{s.pos}}</h5>
                     <h5 class="font-weight-bold">Additional Context:</h5>
                     <p>{{s.context}}</p>
+                    {% if admin %}
                     <div class="container">
                         <div class="row">
                         <div class="col-1">
-                            <form action="" style="margin-right: 10px">
+                            <form action="{{url_for('main.editsign', word=title, defid=d.id, signid=s.id)}}" style="margin-right: 10px">
                                 <input type="submit" value="Edit" />
                             </form>
                         </div>
                         <div class="col-sm">
-                            <form action="">
+                            <form action="{{url_for('main.deletesign', word=title, defid=d.id, signid=s.id)}}">
                                 <input type="submit" value="Delete" />
                             </form>
                         </div>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             <br>
         {% endfor %}
         <br>
+        {% if admin %}
         <form action="{{url_for('main.uploadsign', word=title, defid=d.id)}}" style="margin-left: 50px;">
             <input type="submit" value="Add Sign" />
         </form>
         <br>
         <hr>
+        {% endif %}
     {% endfor %}
+    {% if admin %}
     <form action="{{url_for('main.uploaddef', word=title)}}">
         <input type="submit" value="Add Definition" />
     </form>
+    {% endif %}
 {% endblock %}
