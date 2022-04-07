@@ -8,15 +8,55 @@ cd d
     <h1 class="text-center">Add Sign</h1>
     <h2 class="text-center">Add a sign for "{{word}}: {{definition}}", then go to its page to add more definitions and signs!</h2>
     <br>
-    <form method="POST" class="form-inline my-2 my-lg-0 justify-content-center">
+
+    <div class="form-wrapper justify-content-center">
+        <form method="POST">
         {{ form.hidden_tag() }}
-        {{form.gloss.label}} : {{ form.gloss(class="form-control mr-sm-2") }}
-        <br>
-        {{form.pos.label}} : {{ form.pos(class="form-control mr-sm-2") }}
-        <br>
-        {{form.url.label}} : {{ form.url(class="form-control mr-sm-2") }}
-        <br>
-        {{form.context.label}} : {{ form.context(class="form-control mr-sm-2") }}
-        {{ form.submit(class="btn btn-secondary my-2 my-sm-0") }}
-    </form>    
+        <fieldset class="form-field">
+            {{form.gloss.label}}
+            {{ form.gloss(size=20) }}
+            {% if form.gloss.errors %}
+              <ul class="errors">
+                {% for error in form.gloss.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+        </fieldset>
+        <fieldset class="form-field">
+            {{form.pos.label}}
+            {{ form.pos }}
+            {% if form.pos.errors %}
+              <ul class="errors">
+                {% for error in form.pos.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+        </fieldset>
+        <fieldset class="form-field">
+            {{form.url.label}}
+            {{ form.url }}
+            {% if form.url.errors %}
+              <ul class="errors">
+                {% for error in form.url.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+        </fieldset>
+        <fieldset class="form-field">
+            {{form.context.label}}
+            {{ form.context }}
+            {% if form.context.errors %}
+              <ul class="errors">
+                {% for error in form.context.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+        </fieldset>
+        {{ form.submit }}
+        </form>  
+    </div>  
 {% endblock %}

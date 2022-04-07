@@ -23,14 +23,18 @@ def is_admin():
         isAdmin = False
     return isAdmin
 
-def validate_url(form, field):
-        url_regex = r'''((http|https)\:\/\/)?www\.youtube\.com\/watch\?v=[\w]{11}'''
-        regex = re.compile(url_regex)
-        match = regex.match(field.data)
-        if not match:
-            print("inside error")
-            # HELP NOT RAISING
-            raise ValidationError('Field must be a Youtube URL')
+def validate_url(url):
+    url_regex = r'''((http|https)\:\/\/)?www\.youtube\.com\/watch\?v=[\w]{11}'''
+    regex = re.compile(url_regex)
+    match = regex.match(url)
+
+    if match:
+        print("match!")
+        return True
+    else:
+        print("not match!")
+        return False
+
 
 def convert_url(url):
     video_id = url[-11:]
@@ -48,7 +52,7 @@ class DefinitionForm(FlaskForm):
 class SignForm(FlaskForm):
     gloss = StringField('ASL Gloss', validators=[DataRequired()])
     pos = StringField('Part of Speech', validators=[DataRequired()])
-    url = StringField('YouTube URL', validators=[DataRequired(), URL()])
+    url = StringField('YouTube URL', validators=[DataRequired()])
     context = StringField('Context', validators=[DataRequired()])
     submit = SubmitField('Add Sign')
 
@@ -176,22 +180,25 @@ def uploadsign(word, defid):
     form = SignForm()
     defobj = Defs.query.get(defid)
     if form.validate_on_submit():
-        print("inside submit")
-        try:
-            print("inside try")
-            print(form.url.data)
-            embed_url = convert_url(form.url.data)
-            print(embed_url)
-            sign = Signs(gloss = form.gloss.data, pos = form.pos.data, context = form.context.data, url = embed_url)
-            db.session.add(sign)
-            defobj.signs.append(sign)
-            db.session.commit()
-            return redirect(url_for('main.wordpage', title=word))
-        except sqlalchemy.exc.IntegrityError as e:
-            # some popup with error message with Bootstrap
-            # sign already exists!
-            print(type(e))
-            raise
+        if not validate_url(form.url.data):
+            form.url.errors.append("Must be a Youtube URL")
+        else:
+            print("inside submit")
+            try:
+                print("inside try")
+                print(form.url.data)
+                embed_url = convert_url(form.url.data)
+                print(embed_url)
+                sign = Signs(gloss = form.gloss.data, pos = form.pos.data, context = form.context.data, url = embed_url)
+                db.session.add(sign)
+                defobj.signs.append(sign)
+                db.session.commit()
+                return redirect(url_for('main.wordpage', title=word))
+            except sqlalchemy.exc.IntegrityError as e:
+                # some popup with error message with Bootstrap
+                # sign already exists!
+                print(type(e))
+                raise
     return render_template('uploadsign.html', 
         word=word, 
         definition=defobj.definition, 
