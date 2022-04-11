@@ -50,7 +50,7 @@ class Signs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gloss = db.Column(db.String(120), nullable=False)
     pos = db.Column(db.String(120), nullable=False)
-    context = db.Column(db.String(120), nullable=False)
+    context = db.Column(db.Text, nullable=False)
     url = db.Column(db.String(120), nullable=False)
 
     definition = db.relationship("Defs", secondary=defs_to_signs, back_populates="signs")

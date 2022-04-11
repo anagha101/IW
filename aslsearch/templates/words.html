@@ -12,7 +12,7 @@
         <tr>
             <td><a href="{{url_for('main.wordpage', title=word.title)}}" style="text-transform: capitalize">{{word.title}}</a></td>
             {% if admin %}
-            <td>
+            <td style="padding-left: 15px">
                 <form class="text-right" action="{{url_for('main.deleteword', word=word.title)}}">
                     <input type="submit" value="Delete" />
                 </form>
