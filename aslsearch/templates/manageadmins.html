@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>ASL Search: Upload Word</title>
+    <title>ASL Search: Manage Admins</title>
 {% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Upload Word</h1>
-    <h3 class="text-center">Add a new English word here, then go to its page to add definitions and ASL videos!</h3>
+    <h1 class="text-center">Manage Administrators</h1>
+    <h2 class="text-center">Type in a netid to give it admin privileges!</h2>
     <br>
     <form method="POST" class="form-inline my-2 my-lg-0 justify-content-center">
         {{ form.hidden_tag() }}
         {{ form.word(class="form-control mr-sm-2") }}
         {{ form.submit(class="btn btn-secondary my-2 my-sm-0") }}
     </form>    
+    <h2 class="text-center">Current Administrators:</h2>
+    <!-- Add table of admins here w/ delete buttons -->
 {% endblock %}

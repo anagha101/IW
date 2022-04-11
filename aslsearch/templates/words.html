@@ -10,7 +10,14 @@
     <table>
         {% for word in words: %}
         <tr>
-            <td><a href ={{url_for('main.wordpage', title=word.title)}} style="text-transform: capitalize">{{word.title}}</a></td>
+            <td><a href="{{url_for('main.wordpage', title=word.title)}}" style="text-transform: capitalize">{{word.title}}</a></td>
+            {% if admin %}
+            <td>
+                <form class="text-right" action="{{url_for('main.deleteword', word=word.title)}}">
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
