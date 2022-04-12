@@ -1,6 +1,6 @@
 from flask import request, session, make_response, render_template, redirect, url_for
 from flask.blueprints import Blueprint
-from aslsearch.models import Words, Defs, Signs
+from aslsearch.models import Admins, Words, Defs, Signs
 from aslsearch import db
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
@@ -37,6 +37,10 @@ def convert_url(url):
     embed_url = "https://www.youtube.com/embed/" + video_id
     return embed_url
 
+class AdminForm(FlaskForm):
+    admin = StringField('Add Administrator', validators=[DataRequired()])
+    submit = SubmitField('Add')
+
 class WordForm(FlaskForm):
     word = StringField('Word', validators=[DataRequired()])
     submit = SubmitField('Add Word')
@@ -49,7 +53,7 @@ class SignForm(FlaskForm):
     gloss = StringField('ASL Gloss', validators=[DataRequired()])
     pos = StringField('Part of Speech', validators=[DataRequired()])
     url = StringField('YouTube URL', validators=[DataRequired()])
-    context = StringField('Additional Information', validators=[DataRequired()])
+    context = StringField('Additional Information')
     submit = SubmitField('Add Sign')
 
 main = Blueprint('main', __name__)
@@ -65,6 +69,33 @@ def about():
     html = render_template('about.html', admin=is_admin())
     response = make_response(html)
     return response
+
+@main.route("/admins", methods = ['GET', 'POST'])
+def admins():
+    form = AdminForm()
+    admins = Admins.query.order_by(Admins.netid).all()
+    if form.validate_on_submit():
+        try:
+            db.session.add(Admins(netid = form.admin.data.lower()))
+            db.session.commit()
+            return redirect(url_for('main.admins', admins=admins))
+            # Only sqlalchemy error encountered, will handle more as they come
+        except sqlalchemy.exc.IntegrityError:
+            return 'Admin priveleges already granted. <a href="/admins">Try another netid.</a>'
+        except:
+            return 'Unexpected Error!'
+    return render_template('admins.html', form=form, admins=admins, admin=is_admin())
+
+@main.route("/<string:adminid>/delete", methods = ['GET', 'POST'])
+def removeadmin(adminid):
+    adminobj = Admins.query.get(adminid)
+    try:
+        db.session.delete(adminobj)
+        db.session.commit()
+        return redirect(url_for('main.admins'))
+    except Exception as e:
+        print(type(e))
+        return 'Unexpected Error!'
 
 @main.route("/words", methods = ['GET'])
 def words():
@@ -97,7 +128,7 @@ def uploadword():
             return redirect(url_for('main.wordpage', title=form.word.data))
             # Only sqlalchemy error encountered, will handle more as they come
         except sqlalchemy.exc.IntegrityError:
-            return 'Word already exists. <a href="/">Return to homepage.</a>'
+            return 'Word already exists. <a href="/uploadword">Try another word.</a>'
         except:
             return 'Unexpected Error!'
     return render_template('uploadword.html', form=form, admin=is_admin())
@@ -200,16 +231,19 @@ def editsign(word, defid, signid):
         form.url.data = signobj.url
         form.context.data = signobj.context
     if form.validate_on_submit():
-        try:
-            signobj.gloss = form.gloss.data
-            signobj.pos = form.pos.data
-            signobj.url = form.url.data
-            signobj.context = form.context.data
-            db.session.commit()
-            return redirect(url_for('main.wordpage', title=word))
-        except Exception as e:
-            print(type(e))
-            return 'Unexpected Error!'
+        if not validate_url(form.url.data):
+            form.url.errors.append("Must be a Youtube URL")
+        else:
+            try:
+                signobj.gloss = form.gloss.data
+                signobj.pos = form.pos.data
+                signobj.url = form.url.data
+                signobj.context = form.context.data
+                db.session.commit()
+                return redirect(url_for('main.wordpage', title=word))
+            except Exception as e:
+                print(type(e))
+                return 'Unexpected Error!'
     return render_template('uploadsign.html', 
         word=word, 
         definition=defobj.definition, 
@@ -243,7 +277,9 @@ def login():
     if not user:
         return 'Failed to verify ticket. <a href="/login">Login</a>'
     else:  # Login success, redirect
-        if (user=='anaghar' or user=='nadb') :
+        adminobj = Admins.query.filter(Admins.netid.ilike(user)).first()
+        print(user, " ", adminobj)
+        if (adminobj != None) :
             session['admin'] = user
             return redirect(next)
         else:

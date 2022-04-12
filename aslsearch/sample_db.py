@@ -1,9 +1,18 @@
 from aslsearch import db
-from aslsearch.models import Words, Defs, Signs
+from aslsearch.models import Admins, Words, Defs, Signs
 
 db.drop_all()
 db.create_all()
 print("Step 1: Dropped and recreated tables.")
+
+# admins
+a1 = Admins(netid = 'anaghar')
+a2 = Admins(netid = 'nadb')
+a3 = Admins(netid = 'noah.buchholz')
+db.session.add(a1)
+db.session.add(a2)
+db.session.add(a3)
+db.session.commit()
 
 # dog
 w1 = Words(title = "dog")
@@ -36,7 +45,7 @@ db.session.add(d23)
 w2.definitions.extend((d21, d22, d23))
 s21 = Signs(gloss = "OPEN", pos = "verb", context = "Primary usage.", url = "https://www.youtube.com/embed/nUzoCPYbqqM")
 s22 = Signs(gloss = "OPEN-DOOR", pos = "verb", context = "Same as OPEN, but understood as OPEN-DOOR in context. See DOOR for more.", url = "https://www.youtube.com/embed/SDTlfgtJKlI")
-s23 = Signs(gloss = "OPEN-WINDOW", pos = "verb", context = "Different from OPEN. See WINDOW for more.", url = "https://www.youtube.com/watch?v=eNfDK2UHMvE")
+s23 = Signs(gloss = "OPEN-WINDOW", pos = "verb", context = "Different from OPEN. See WINDOW for more.", url = "https://www.youtube.com/embed/eNfDK2UHMvE")
 s24 = Signs(gloss = "MIND-OPEN", pos = "adjective", context = "He/she/they is/are MIND-OPEN.", url = "https://www.youtube.com/embed/csw0gDBht9U")
 s25 = Signs(gloss = "OPEN", pos = "adjective", context = "General sign for OPEN as a state or concept.", url = "https://www.youtube.com/embed/65jEbaQHw98")
 db.session.add(s21)

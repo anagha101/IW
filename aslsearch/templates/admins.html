@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>ASL Search: Manage Administrators</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Manage Administrators</h1>
+    <hr>
+    <h2 class="text-center">Type in a netid to give it admin privileges!</h2>
+    <br>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          <label>Add Admin</label>
+          <div>{{ form.admin(class="form-control") }}</div>
+        </div>
+        {{ form.submit(class="btn btn-secondary my-2 my-sm-0") }}
+    </form>
+    <h2 class="text-center">Current Administrators:</h2>
+    <table>
+        {% for admin in admins: %}
+        <tr>
+            <td>{{admin.netid}}</td>
+            <td style="padding-left: 15px">
+                <form class="text-right" action="{{url_for('main.removeadmin', adminid=admin.id)}}">
+                    <input type="submit" value="&#128465 Remove" />
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

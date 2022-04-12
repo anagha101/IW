@@ -50,7 +50,7 @@ class Signs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gloss = db.Column(db.String(120), nullable=False)
     pos = db.Column(db.String(120), nullable=False)
-    context = db.Column(db.Text, nullable=False)
+    context = db.Column(db.Text, nullable=True)
     url = db.Column(db.String(120), nullable=False)
 
     definition = db.relationship("Defs", secondary=defs_to_signs, back_populates="signs")
@@ -69,9 +69,9 @@ class Signs(db.Model):
 
 # ----------------------------------------------------------------------
 
-class Users(db.Model):
+class Admins(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    netid = db.Column(db.String(120), nullable=False)
+    netid = db.Column(db.String(120), unique=True, nullable=False)
 
     def __repr__(self):
         return f"Net ID: '{self.netid}'"
