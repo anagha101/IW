@@ -6,9 +6,9 @@ db.create_all()
 print("Step 1: Dropped and recreated tables.")
 
 # admins
-a1 = Admins(netid = 'anaghar')
-a2 = Admins(netid = 'nadb')
-a3 = Admins(netid = 'noah.buchholz')
+a1 = Admins(netid = 'anaghar', superadmin = True)
+a2 = Admins(netid = 'nadb', superadmin = True)
+a3 = Admins(netid = 'rdondero', superadmin = False)
 db.session.add(a1)
 db.session.add(a2)
 db.session.add(a3)

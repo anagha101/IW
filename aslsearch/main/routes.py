@@ -86,7 +86,7 @@ def admins():
             return 'Unexpected Error!'
     return render_template('admins.html', form=form, admins=admins, admin=is_admin())
 
-@main.route("/<string:adminid>/delete", methods = ['GET', 'POST'])
+@main.route("/<int:adminid>/delete", methods = ['GET', 'POST'])
 def removeadmin(adminid):
     adminobj = Admins.query.get(adminid)
     try:
@@ -136,12 +136,17 @@ def uploadword():
 @main.route("/<string:word>/delete", methods = ['GET', 'POST'])
 def deleteword(word):
     wordobj = Words.query.filter(Words.title.ilike(word)).first()
+    print("word: ", wordobj.title)
     try:
+        print("in try")
         for defobj in wordobj.definitions:
             for signobj in defobj.signs:
                 db.session.delete(signobj)
+                print("deleted signs")
             db.session.delete(defobj)
+            print("deleted defs")
         db.session.delete(wordobj)
+        print("deleted word")
         db.session.commit()
         return redirect(url_for('main.words'))
     except Exception as e:

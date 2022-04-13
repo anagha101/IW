@@ -22,11 +22,14 @@
         {% for admin in admins: %}
         <tr>
             <td>{{admin.netid}}</td>
+            <td>{{superadmin}}</td>
+            {% if admin.superadmin == false %}
             <td style="padding-left: 15px">
                 <form class="text-right" action="{{url_for('main.removeadmin', adminid=admin.id)}}">
                     <input type="submit" value="&#128465 Remove" />
                 </form>
             </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
