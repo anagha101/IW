@@ -24,7 +24,7 @@ def is_admin():
     return isAdmin
 
 def validate_url(url):
-    url_regex = r'''.*youtube.*'''
+    url_regex = r'''.*(youtube|youtu.be).*'''
     regex = re.compile(url_regex)
     match = regex.match(url)
     if match:
