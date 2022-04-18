@@ -76,7 +76,7 @@ def admins():
     admins = Admins.query.order_by(Admins.netid).all()
     if form.validate_on_submit():
         try:
-            db.session.add(Admins(netid = form.admin.data.lower()))
+            db.session.add(Admins(netid = form.admin.data.lower(), superadmin=False))
             db.session.commit()
             return redirect(url_for('main.admins', admins=admins))
             # Only sqlalchemy error encountered, will handle more as they come
