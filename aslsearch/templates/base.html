@@ -28,14 +28,12 @@
                 <li class="nav-item">
                   <a class="nav-link text-white" href="{{url_for('main.admins')}}">Manage Admins</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link text-white" href="{{url_for('main.logout')}}">Logout</a>
                 </li>
-                <!-- {% else %}
                 <li class="nav-item">
                   <a class="nav-link text-white" href="{{url_for('main.login')}}">Admin Login</a>
-                </li>
-                {% endif %} -->
+                </li> -->
               </ul>
               <form action="{{url_for('main.words')}}" method="'GET" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search"  id="keyword" name="word" placeholder="Search" aria-label="Search">
