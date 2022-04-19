@@ -136,17 +136,12 @@ def uploadword():
 @main.route("/<string:word>/delete", methods = ['GET', 'POST'])
 def deleteword(word):
     wordobj = Words.query.filter(Words.title.ilike(word)).first()
-    print("word: ", wordobj.title)
     try:
-        print("in try")
         for defobj in wordobj.definitions:
             for signobj in defobj.signs:
                 db.session.delete(signobj)
-                print("deleted signs")
             db.session.delete(defobj)
-            print("deleted defs")
         db.session.delete(wordobj)
-        print("deleted word")
         db.session.commit()
         return redirect(url_for('main.words'))
     except Exception as e:
@@ -269,7 +264,6 @@ def deletesign(word, defid, signid):
 @main.route('/login')
 def login():
     if 'admin' in session:
-        print("Username exists:", session['admin'])
         # Already logged in
         return redirect(url_for('main.homepage'))
     next = request.args.get('next')
@@ -283,7 +277,6 @@ def login():
         return 'Failed to verify ticket. <a href="/login">Login</a>'
     else:  # Login success, redirect
         adminobj = Admins.query.filter(Admins.netid.ilike(user)).first()
-        print(user, " ", adminobj)
         if (adminobj != None) :
             session['admin'] = user
             return redirect(next)
