@@ -1,7 +1,12 @@
+# ----------------------------------------------------------------------
+# __init__.py
+# Author: Anagha Rajagopalan
+# ----------------------------------------------------------------------
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from aslsearch.config import Config
+# ----------------------------------------------------------------------
 
 db = SQLAlchemy()
 

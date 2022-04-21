@@ -1,3 +1,7 @@
+# ----------------------------------------------------------------------
+# routes.py
+# Author: Anagha Rajagopalan
+# ----------------------------------------------------------------------
 from flask import request, session, make_response, render_template, redirect, url_for
 from flask.blueprints import Blueprint
 from aslsearch.models import Admins, Words, Defs, Signs
@@ -5,9 +9,9 @@ from aslsearch import db
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Regexp
-import sqlalchemy
-import re
 from cas import CASClient
+import sqlalchemy
+# ----------------------------------------------------------------------
 
 cas_client = CASClient(
     version=3,
@@ -28,6 +32,8 @@ def convert_url(url):
     embed_url = "https://www.youtube.com/embed/" + video_id
     return embed_url
 
+# ----------------------------------------------------------------------
+
 class AdminForm(FlaskForm):
     admin = StringField('Add Administrator', validators=[DataRequired()])
     submit = SubmitField('Add')
@@ -46,6 +52,8 @@ class SignForm(FlaskForm):
     url = StringField('YouTube URL', validators=[DataRequired(), Regexp(r'^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$', message="Please use a valid Youtube URL.")])
     context = StringField('Additional Information')
     submit = SubmitField('Add Sign')
+
+# ----------------------------------------------------------------------
 
 main = Blueprint('main', __name__)
 
@@ -254,7 +262,6 @@ def login():
     next = request.args.get('next')
     ticket = request.args.get('ticket')
     if not ticket:
-        # Send to CAS login
         cas_login_url = cas_client.get_login_url()
         return redirect(cas_login_url)
     user, attributes, pgtiou = cas_client.verify_ticket(ticket)

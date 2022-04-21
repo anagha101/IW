@@ -1,5 +1,10 @@
+# ----------------------------------------------------------------------
+# sample_db.py
+# Author: Anagha Rajagopalan
+# ----------------------------------------------------------------------
 from aslsearch import db
 from aslsearch.models import Admins, Words, Defs, Signs
+# ----------------------------------------------------------------------
 
 db.drop_all()
 db.create_all()
