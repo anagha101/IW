@@ -4,16 +4,15 @@ from aslsearch.models import Admins, Words, Defs, Signs
 from aslsearch import db
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, ValidationError
-from wtforms.validators import URL
+from wtforms.validators import DataRequired, Regexp
 import sqlalchemy
 import re
 from cas import CASClient
 
 cas_client = CASClient(
     version=3,
-    #service_url='http://localhost:5000/login?next=%2F',
-    service_url='http://aslsearch.herokuapp.com/login?next=%2F',
+    service_url='http://localhost:5000/login?next=%2F',
+    #service_url='http://aslsearch.herokuapp.com/login?next=%2F',
     server_url='https://fed.princeton.edu/cas/login'
 )
 
@@ -23,15 +22,6 @@ def is_admin():
     else:
         isAdmin = False
     return isAdmin
-
-def validate_url(url):
-    url_regex = r'''.*(youtube|youtu.be).*'''
-    regex = re.compile(url_regex)
-    match = regex.match(url)
-    if match:
-        return True
-    else:
-        return False
 
 def convert_url(url):
     video_id = url[-11:]
@@ -53,7 +43,7 @@ class DefinitionForm(FlaskForm):
 class SignForm(FlaskForm):
     gloss = StringField('ASL Gloss', validators=[DataRequired()])
     pos = StringField('Part of Speech', validators=[DataRequired()])
-    url = StringField('YouTube URL', validators=[DataRequired()])
+    url = StringField('YouTube URL', validators=[DataRequired(), Regexp(r'^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$', message="Please use a valid Youtube URL.")])
     context = StringField('Additional Information')
     submit = SubmitField('Add Sign')
 
@@ -199,22 +189,19 @@ def uploadsign(word, defid):
     form = SignForm()
     defobj = Defs.query.get(defid)
     if form.validate_on_submit():
-        if not validate_url(form.url.data):
-            form.url.errors.append("Must be a Youtube URL")
-        else:
-            try:
-                embed_url = convert_url(form.url.data)
-                sign = Signs(gloss = form.gloss.data, 
-                    pos = form.pos.data, 
-                    context = form.context.data, 
-                    url = embed_url)
-                db.session.add(sign)
-                defobj.signs.append(sign)
-                db.session.commit()
-                return redirect(url_for('main.wordpage', title=word))
-            except Exception as e:
-                print(type(e))
-                return 'Unexpected Error!'
+        try:
+            embed_url = convert_url(form.url.data)
+            sign = Signs(gloss = form.gloss.data, 
+                pos = form.pos.data, 
+                context = form.context.data, 
+                url = embed_url)
+            db.session.add(sign)
+            defobj.signs.append(sign)
+            db.session.commit()
+            return redirect(url_for('main.wordpage', title=word))
+        except Exception as e:
+            print(type(e))
+            return 'Unexpected Error!'
     return render_template('uploadsign.html', 
         word=word, 
         definition=defobj.definition, 
@@ -232,19 +219,16 @@ def editsign(word, defid, signid):
         form.url.data = signobj.url
         form.context.data = signobj.context
     if form.validate_on_submit():
-        if not validate_url(form.url.data):
-            form.url.errors.append("Must be a Youtube URL")
-        else:
-            try:
-                signobj.gloss = form.gloss.data
-                signobj.pos = form.pos.data
-                signobj.url = form.url.data
-                signobj.context = form.context.data
-                db.session.commit()
-                return redirect(url_for('main.wordpage', title=word))
-            except Exception as e:
-                print(type(e))
-                return 'Unexpected Error!'
+        try:
+            signobj.gloss = form.gloss.data
+            signobj.pos = form.pos.data
+            signobj.url = form.url.data
+            signobj.context = form.context.data
+            db.session.commit()
+            return redirect(url_for('main.wordpage', title=word))
+        except Exception as e:
+            print(type(e))
+            return 'Unexpected Error!'
     return render_template('uploadsign.html', 
         word=word, 
         definition=defobj.definition, 
