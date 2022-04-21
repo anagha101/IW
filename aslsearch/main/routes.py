@@ -15,8 +15,8 @@ import sqlalchemy
 
 cas_client = CASClient(
     version=3,
-    service_url='http://localhost:5000/login?next=%2F',
-    #service_url='http://aslsearch.herokuapp.com/login?next=%2F',
+    #service_url='http://localhost:5000/login?next=%2F',
+    service_url='http://aslsearch.herokuapp.com/login?next=%2F',
     server_url='https://fed.princeton.edu/cas/login'
 )
 
