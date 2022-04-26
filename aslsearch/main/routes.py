@@ -91,8 +91,9 @@ def admins():
             return redirect(url_for('main.admins', admins=admins))
         except sqlalchemy.exc.IntegrityError:
             return 'Admin priveleges already granted. <a href="/admins">Try another netid.</a>'
-        except:
-            return 'Unexpected Error!'
+        except Exception as e:
+            print(type(e))
+            return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
     return render_template('admins.html', form=form, admins=admins, admin=is_admin())
 
 @main.route("/<int:adminid>/delete", methods = ['GET', 'POST'])
@@ -104,7 +105,7 @@ def removeadmin(adminid):
         return redirect(url_for('main.admins'))
     except Exception as e:
         print(type(e))
-        return 'Unexpected Error!'
+        return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
 
 @main.route("/words", methods = ['GET'])
 def words():
@@ -142,8 +143,9 @@ def uploadword():
                 return redirect(url_for('main.wordpage', title=form.word.data))
             except sqlalchemy.exc.IntegrityError:
                 return 'Word already exists. <a href="/uploadword">Try another word.</a>'
-            except:
-                return 'Unexpected Error!'
+            except Exception as e:
+                print(type(e))
+                return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
     return render_template('uploadword.html', form=form, admin=is_admin())
 
 @main.route("/<string:word>/delete", methods = ['GET', 'POST'])
@@ -159,7 +161,7 @@ def deleteword(word):
         return redirect(url_for('main.words'))
     except Exception as e:
         print(type(e))
-        return 'Unexpected Error!'
+        return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
 
 @main.route("/<string:word>/uploaddef", methods = ['GET', 'POST'])
 def uploaddef(word):
@@ -174,7 +176,7 @@ def uploaddef(word):
             return redirect(url_for('main.wordpage', title=word))
         except Exception as e:
             print(type(e))
-            return 'Unexpected Error!'
+            return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
     return render_template('uploaddef.html', word=word, form=form, admin=is_admin())
 
 @main.route("/<string:word>/<int:defid>/edit", methods = ['GET', 'POST'])
@@ -190,7 +192,7 @@ def editdef(word, defid):
             return redirect(url_for('main.wordpage', title=word))
         except Exception as e:
             print(type(e))
-            return 'Unexpected Error!'
+            return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
     return render_template('uploaddef.html', word=word, form=form, admin=is_admin())
 
 @main.route("/<string:word>/<int:defid>/delete", methods = ['GET', 'POST'])
@@ -204,7 +206,7 @@ def deletedef(word, defid):
         return redirect(url_for('main.wordpage', title=word))
     except Exception as e:
         print(type(e))
-        return 'Unexpected Error!'
+        return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
 
 @main.route("/<string:word>/<int:defid>/uploadsign", methods = ['GET', 'POST'])
 def uploadsign(word, defid):
@@ -223,7 +225,7 @@ def uploadsign(word, defid):
             return redirect(url_for('main.wordpage', title=word))
         except Exception as e:
             print(type(e))
-            return 'Unexpected Error!'
+            return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
     return render_template('uploadsign.html', 
         word=word, 
         definition=defobj.definition, 
@@ -250,7 +252,7 @@ def editsign(word, defid, signid):
             return redirect(url_for('main.wordpage', title=word))
         except Exception as e:
             print(type(e))
-            return 'Unexpected Error!'
+            return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
     return render_template('uploadsign.html', 
         word=word, 
         definition=defobj.definition, 
@@ -266,7 +268,7 @@ def deletesign(word, defid, signid):
         return redirect(url_for('main.wordpage', title=word))
     except Exception as e:
         print(type(e))
-        return 'Unexpected Error!'
+        return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
 
 @main.route('/login')
 def login():
