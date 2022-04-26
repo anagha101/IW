@@ -11,6 +11,7 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Regexp
 from cas import CASClient
 import sqlalchemy
+import enchant
 # ----------------------------------------------------------------------
 
 cas_client = CASClient(
@@ -26,6 +27,14 @@ def is_admin():
     else:
         isAdmin = False
     return isAdmin
+
+def validate_word(input):
+    d = enchant.Dict("en_US")
+    words = input.split()
+    for word in words:
+        if d.check(word) == False:
+            return d.check(word)
+    return d.check(word)
 
 def convert_url(url):
     video_id = url[-11:]
@@ -49,7 +58,9 @@ class DefinitionForm(FlaskForm):
 class SignForm(FlaskForm):
     gloss = StringField('ASL Gloss', validators=[DataRequired()])
     pos = StringField('Part of Speech', validators=[DataRequired()])
-    url = StringField('YouTube URL', validators=[DataRequired(), Regexp(r'^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$', message="Please use a valid Youtube URL.")])
+    url = StringField('YouTube URL', validators=[DataRequired(), 
+        Regexp(r'^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$', 
+        message="Please use a valid Youtube URL.")])
     context = StringField('Additional Information')
     submit = SubmitField('Add Sign')
 
@@ -78,7 +89,6 @@ def admins():
             db.session.add(Admins(netid = form.admin.data.lower(), superadmin=False))
             db.session.commit()
             return redirect(url_for('main.admins', admins=admins))
-            # Only sqlalchemy error encountered, will handle more as they come
         except sqlalchemy.exc.IntegrityError:
             return 'Admin priveleges already granted. <a href="/admins">Try another netid.</a>'
         except:
@@ -102,10 +112,12 @@ def words():
     words = None
     if not keyword:
         words = Words.query.order_by(Words.title).all()
+        all = True
     else:
         keyword = "%{}%".format(keyword.lower())
         words = Words.query.filter(Words.title.like(keyword)).order_by(Words.title).all()
-    html = render_template("words.html", words = words, admin=is_admin())
+        all = False
+    html = render_template("words.html", words = words, admin=is_admin(), all=all)
     return make_response(html)
 
 @main.route("/wordpage/<string:title>", methods = ['GET'])
@@ -121,15 +133,17 @@ def wordpage(title):
 def uploadword():
     form = WordForm()
     if form.validate_on_submit():
-        try:
-            db.session.add(Words(title = form.word.data.lower()))
-            db.session.commit()
-            return redirect(url_for('main.wordpage', title=form.word.data))
-            # Only sqlalchemy error encountered, will handle more as they come
-        except sqlalchemy.exc.IntegrityError:
-            return 'Word already exists. <a href="/uploadword">Try another word.</a>'
-        except:
-            return 'Unexpected Error!'
+        if not validate_word(form.word.data):
+            form.word.errors.append("Must contain only English words.")
+        else:
+            try:
+                db.session.add(Words(title = form.word.data.lower()))
+                db.session.commit()
+                return redirect(url_for('main.wordpage', title=form.word.data))
+            except sqlalchemy.exc.IntegrityError:
+                return 'Word already exists. <a href="/uploadword">Try another word.</a>'
+            except:
+                return 'Unexpected Error!'
     return render_template('uploadword.html', form=form, admin=is_admin())
 
 @main.route("/<string:word>/delete", methods = ['GET', 'POST'])

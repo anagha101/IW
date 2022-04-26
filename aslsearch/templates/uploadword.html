@@ -13,6 +13,14 @@
         <div class="form-group">
           <label>Word</label>
           <div>{{ form.word(class="form-control") }}</div>
+          {% if form.word.errors %}
+            <ul class="errors">
+              {% for error in form.word.errors %}
+                <br>
+                <p class="alert alert-danger">&#9888 {{ error }}</p>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </div>
         {{ form.submit(class="btn btn-secondary my-2 my-sm-0") }}
       </form> 

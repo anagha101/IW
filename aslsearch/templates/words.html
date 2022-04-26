@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block body %}
+    {% if all and admin %}
+    <h2>All Words:</h2>
+    {% else %}
     <h2>Search Results:</h2>
+    {% endif %}
     <hr>
     <table>
         {% for word in words: %}
