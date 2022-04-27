@@ -22,21 +22,20 @@ db.session.commit()
 
 # words
 r = RandomWords()
-word_list = r.get_random_words(limit=500)
+word_list = r.get_random_words(limit=100)
 
 for word in word_list:
     w = Words(title = word)
     db.session.add(w)
     print("Added Word!")
-    for x in range (100):
-        d = Defs(definition = "hi")
+    for x in range (20):
+        d = Defs(definition = "definition")
         db.session.add(d)
         print("Added Def!")
         w.definitions.append(d)
-        for x in range (100):
-            s = Signs(gloss = "HI", pos = "hi", context = "hi", url = "https://www.youtube.com/embed/nUzoCPYbqqM")
+        for x in range (20):
+            s = Signs(gloss = "gloss", pos = "noun", context = "sample", url = "https://www.youtube.com/embed/nUzoCPYbqqM")
             db.session.add(s)
             print("Added Sign!")
             d.signs.append(s)
-
-db.session.commit()
+    db.session.commit()

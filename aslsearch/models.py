@@ -36,7 +36,7 @@ class Words(db.Model):
 
 class Defs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    definition = db.Column(db.String(120), nullable=False)
+    definition = db.Column(db.Text, nullable=False)
 
     word = db.relationship("Words", secondary=words_to_defs, back_populates="definitions")
 
