@@ -28,12 +28,12 @@ for word in word_list:
     w = Words(title = word)
     db.session.add(w)
     print("Added Word!")
-    for x in range (20):
+    for x in range (10):
         d = Defs(definition = "definition")
         db.session.add(d)
         print("Added Def!")
         w.definitions.append(d)
-        for x in range (20):
+        for x in range (5):
             s = Signs(gloss = "gloss", pos = "noun", context = "sample", url = "https://www.youtube.com/embed/nUzoCPYbqqM")
             db.session.add(s)
             print("Added Sign!")
