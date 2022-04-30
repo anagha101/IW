@@ -10,10 +10,8 @@ itsdangerous==2.0.1
 Jinja2==3.0.3
 MarkupSafe==2.0.1
 psycopg2-binary==2.9.1
-pyenchant-3.2.2
 python-cas==1.6.0
 pyyaml-6.0
-random-word-1.0.7
 SQLAlchemy==1.4.25
 Werkzeug==2.0.3
 WTForms==2.3.3
