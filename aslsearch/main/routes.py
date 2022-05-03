@@ -11,7 +11,7 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Regexp
 from cas import CASClient
 import sqlalchemy
-import enchant
+import urllib.parse
 # ----------------------------------------------------------------------
 
 cas_client = CASClient(
@@ -27,14 +27,6 @@ def is_admin():
     else:
         isAdmin = False
     return isAdmin
-
-def validate_word(input):
-    d = enchant.Dict("en_US")
-    words = input.split()
-    for word in words:
-        if d.check(word) == False:
-            return d.check(word)
-    return d.check(word)
 
 def convert_url(url):
     video_id = url[-11:]
@@ -134,18 +126,16 @@ def wordpage(title):
 def uploadword():
     form = WordForm()
     if form.validate_on_submit():
-        if not validate_word(form.word.data):
-            form.word.errors.append("Must contain only English words.")
-        else:
-            try:
-                db.session.add(Words(title = form.word.data.lower()))
-                db.session.commit()
-                return redirect(url_for('main.wordpage', title=form.word.data))
-            except sqlalchemy.exc.IntegrityError:
-                return 'Word already exists. <a href="/uploadword">Try another word.</a>'
-            except Exception as e:
-                print(type(e))
-                return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
+        try:
+            new_word = urllib.parse.quote_plus(form.word.data.lower())
+            db.session.add(Words(title = new_word))
+            db.session.commit()
+            return redirect(url_for('main.wordpage', title=new_word))
+        except sqlalchemy.exc.IntegrityError:
+            return 'Word already exists. <a href="/uploadword">Try another word.</a>'
+        except Exception as e:
+            print(type(e))
+            return 'Unexpected Error! Return to <a href="/">ASL Search.</a>'
     return render_template('uploadword.html', form=form, admin=is_admin())
 
 @main.route("/<string:word>/delete", methods = ['GET', 'POST'])

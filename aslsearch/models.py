@@ -28,9 +28,6 @@ class Words(db.Model):
     def __repr__(self):
         return f"Word: '{self.title}'"
 
-    def getDefs(self):
-        return self.definitions
-
 # ----------------------------------------------------------------------
 
 
@@ -45,9 +42,6 @@ class Defs(db.Model):
     def __repr__(self):
         return f"Definition: '{self.definition}'"
 
-    def getSigns(self):
-        return self.signs
-
 # ----------------------------------------------------------------------
 
 class Signs(db.Model):
@@ -61,15 +55,6 @@ class Signs(db.Model):
 
     def __repr__(self):
         return f"ASL gloss: '{self.gloss}'"
-
-    def getPOS(self):
-        return self.pos
-    
-    def getContext(self):
-        return self.context
-
-    def getURL(self):
-        return self.url
 
 # ----------------------------------------------------------------------
 
